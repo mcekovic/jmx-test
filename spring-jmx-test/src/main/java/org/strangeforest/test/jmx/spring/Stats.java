@@ -1,7 +1,5 @@
 package org.strangeforest.test.jmx.spring;
 
-import org.springframework.jmx.export.annotation.*;
-
 public class Stats {
 
 	private String name;

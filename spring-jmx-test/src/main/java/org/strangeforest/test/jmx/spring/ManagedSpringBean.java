@@ -2,6 +2,8 @@ package org.strangeforest.test.jmx.spring;
 
 import java.util.*;
 
+import javax.management.openmbean.*;
+
 import org.springframework.jmx.export.annotation.*;
 
 @ManagedResource
@@ -35,7 +37,16 @@ public class ManagedSpringBean {
 	}
 
 	@ManagedAttribute
-	public Map<String, Integer> getStatistics2() {
+	public CompositeData getStatisticsAsOpenType() throws OpenDataException {
+		return new CompositeDataSupport(
+			new CompositeType(Stats.class.getName(), null, new String[] {"name", "count"}, null, new OpenType[] {SimpleType.STRING, SimpleType.INTEGER}),
+			new String[] {"name", "count"},
+			new Object[] {"counter", count}
+		);
+	}
+
+	@ManagedAttribute
+	public Map<String, Integer> getStatisticsAsMap() {
 		return Collections.singletonMap("counter", count);
 	}
 }

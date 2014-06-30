@@ -9,9 +9,12 @@ import javax.management.modelmbean.*;
 import javax.management.remote.*;
 
 import org.strangeforest.test.jmx.dynamic.*;
+//import org.strangeforest.test.jmx.gmbal.*;
 import org.strangeforest.test.jmx.model.*;
 import org.strangeforest.test.jmx.mx.*;
 import org.strangeforest.test.jmx.standard.*;
+
+//import com.sun.org.glassfish.gmbal.*;
 
 public class Server {
 
@@ -19,6 +22,7 @@ public class Server {
 	public static final String TEST_DYNAMIC_URL = "org.strangeforrest.test:type=TestDynamic";
 	public static final String TEST_MODEL_URL = "org.strangeforrest.test:type=TestModel";
 	public static final String TEST_MX_URL = "org.strangeforrest.test:type=TestMX";
+	public static final String TEST_GMBAL_URL = "org.strangeforrest.test:type=TestGmbal";
 
 	private static final int JMX_RMI_PORT = 9999;
 	private static final String JMX_URL = "service:jmx:rmi:///jndi/rmi://localhost:%d/server";
@@ -50,6 +54,10 @@ public class Server {
 
 		// MXBean
 		server.registerMBean(new CountersMBeanImpl(), new ObjectName(TEST_MX_URL));
+
+		// Gmbal
+//		GmbalMBean gmbalMBean = ManagedObjectManagerFactory.createStandalone("Test").registerAtRoot(new TestGmbal(), TEST_GMBAL_URL);
+//		server.registerMBean(gmbalMBean, new ObjectName(TEST_GMBAL_URL));
 
 		return startRMIConnectorServer(server);
 	}
