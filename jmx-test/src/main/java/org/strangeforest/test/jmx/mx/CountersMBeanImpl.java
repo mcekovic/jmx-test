@@ -1,5 +1,7 @@
 package org.strangeforest.test.jmx.mx;
 
+import org.strangeforest.test.jmx.*;
+
 public class CountersMBeanImpl implements CountersMBean {
 
 	private CounterList counters;

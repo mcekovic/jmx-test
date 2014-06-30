@@ -1,4 +1,4 @@
-package org.strangeforest.test.jmx.mx;
+package org.strangeforest.test.jmx;
 
 import java.util.*;
 

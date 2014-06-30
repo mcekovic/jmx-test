@@ -52,13 +52,19 @@ public class ClientTest {
 		ObjectName objectName = new ObjectName(TEST_DYNAMIC_URL);
 		assertNotNull(conn.getObjectInstance(objectName));
 
-		conn.setAttribute(objectName, new Attribute("Count", 10));
-		assertThat((Integer)conn.getAttribute(objectName, "Count"), is(equalTo(10)));
+		dynamicClientCountTest(objectName);
+	}
 
-		conn.invoke(objectName, "inc", null, null);
-		conn.invoke(objectName, "inc", null, null);
-		conn.invoke(objectName, "dec", null, null);
-		assertThat((Integer)conn.getAttribute(objectName, "Count"), is(equalTo(11)));
+	@Test
+	public void openMBeanTest() throws JMException, IOException {
+		ObjectName objectName = new ObjectName(TEST_OPEN_URL);
+		assertNotNull(conn.getObjectInstance(objectName));
+
+		dynamicClientCountTest(objectName);
+
+		CompositeData counter = (CompositeData)conn.getAttribute(objectName, "Counter");
+		assertThat((String)counter.get("name"), is(equalTo("count")));
+		assertThat((String)counter.get("type"), is(equalTo("counter")));
 	}
 
 	@Test
@@ -66,13 +72,7 @@ public class ClientTest {
 		ObjectName objectName = new ObjectName(TEST_MODEL_URL);
 		assertNotNull(conn.getObjectInstance(objectName));
 
-		conn.setAttribute(objectName, new Attribute("Count", 10));
-		assertThat((Integer)conn.getAttribute(objectName, "Count"), is(equalTo(10)));
-
-		conn.invoke(objectName, "inc", null, null);
-		conn.invoke(objectName, "inc", null, null);
-		conn.invoke(objectName, "dec", null, null);
-		assertThat((Integer)conn.getAttribute(objectName, "Count"), is(equalTo(11)));
+		dynamicClientCountTest(objectName);
 	}
 
 	@Test
@@ -89,5 +89,15 @@ public class ClientTest {
 
 		CompositeData[] counters = (CompositeData[])counterList.get("counters");
 		assertThat(counters.length, is(equalTo(3)));
+	}
+
+	private void dynamicClientCountTest(ObjectName objectName) throws InstanceNotFoundException, AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException, IOException {
+		conn.setAttribute(objectName, new Attribute("Count", 10));
+		assertThat((Integer)conn.getAttribute(objectName, "Count"), is(equalTo(10)));
+
+		conn.invoke(objectName, "inc", null, null);
+		conn.invoke(objectName, "inc", null, null);
+		conn.invoke(objectName, "dec", null, null);
+		assertThat((Integer)conn.getAttribute(objectName, "Count"), is(equalTo(11)));
 	}
 }

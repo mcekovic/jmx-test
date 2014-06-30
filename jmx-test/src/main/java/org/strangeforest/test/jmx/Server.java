@@ -12,6 +12,7 @@ import org.strangeforest.test.jmx.dynamic.*;
 //import org.strangeforest.test.jmx.gmbal.*;
 import org.strangeforest.test.jmx.model.*;
 import org.strangeforest.test.jmx.mx.*;
+import org.strangeforest.test.jmx.open.*;
 import org.strangeforest.test.jmx.standard.*;
 
 //import com.sun.org.glassfish.gmbal.*;
@@ -20,6 +21,7 @@ public class Server {
 
 	public static final String TEST_STANDARD_URL = "org.strangeforrest.test:type=TestStandard";
 	public static final String TEST_DYNAMIC_URL = "org.strangeforrest.test:type=TestDynamic";
+	public static final String TEST_OPEN_URL = "org.strangeforrest.test:type=TestOpen";
 	public static final String TEST_MODEL_URL = "org.strangeforrest.test:type=TestModel";
 	public static final String TEST_MX_URL = "org.strangeforrest.test:type=TestMX";
 	public static final String TEST_GMBAL_URL = "org.strangeforrest.test:type=TestGmbal";
@@ -46,6 +48,9 @@ public class Server {
 
 		// Dynamic MBean
 		server.registerMBean(new TestDynamic(), new ObjectName(TEST_DYNAMIC_URL));
+
+		// Open MBean
+		server.registerMBean(new TestOpen(), new ObjectName(TEST_OPEN_URL));
 
 		// Model MBean
 		RequiredModelMBean modelMBean = new RequiredModelMBean(ModelMBeanInfoProvider.getModelMBeanInfo());
